@@ -37,7 +37,7 @@ services:
     labels:
       # Enable Traefik for this service, to make it available in the public network
       - traefik.enable=true
-      - traefik.constraint-label=traefik-public
+      - traefik.constraint-label=traefik-public # Custom label to identify services of this stack               
       # Dummy https-redirect middleware that doesn't really redirect, only to
       # allow running it locally
       - traefik.http.middlewares.https-redirect.contenttype.autodetect=false

@@ -23,7 +23,7 @@ def get_db() -> Generator[Session, None, None]:
         yield session
 
 
-SessionDep = Annotated[Session, Depends(get_db)]
+SessionDep = Annotated[Session, Depends(get_db)] 
 TokenDep = Annotated[str, Depends(reusable_oauth2)]
 
 

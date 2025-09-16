@@ -111,3 +111,33 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
+
+
+class BookBase(SQLModel):
+    title:str=Field(min_length=8,max_length=255)
+    author:str=Field(min_length=8,max_length=255)
+    description:str|None=Field(default=None,max_length=255)
+    published_year:int
+    
+
+class BookPublic(BookBase):
+    book_id:uuid.UUID
+    # owner_id:uuid.UUID
+    
+class BooksPublic(SQLModel):
+    data:list[BookPublic]
+    count:int
+    
+class BookCreate(BookBase):
+    pass
+
+class BookUpdate(BookBase):
+    title:str|None=Field(default=None,min_length=8,max_length=255)
+    description:str|None=Field(default=None,max_length=255)
+    published_year:int|None
+    
+
+class Book(BookBase,table=True):
+    book_id:uuid.UUID=Field(default_factory=uuid.uuid4,primary_key=True)
+    # owner_id:uuid.UUID=Field(foreign_key="user.id",nullable=False,ondelete="CASCADE")
+    # owner:User|None=Relationship(back_populates="books")
