@@ -10,13 +10,14 @@ from app.models import Book,BookCreate,BookPublic,BooksPublic,Message
 router = APIRouter(prefix="/books", tags=["books"])
 
 @router.get("/",response_model=BooksPublic)
-def read_books(session:SessionDep,)->BooksPublic:
+def read_books(session:SessionDep,skip:int=0,limit:int=100)->BooksPublic:
     """
     Retrieve Books.
     """
+    print("\n\n\n\n\n\n",skip,limit,"\n\n\n\n\n\n")
     count_staementt= select(func.count()).select_from(Book)
     count=session.exec(count_staementt).one()
-    book_statement=select(Book)
+    book_statement=select(Book).offset(skip).limit(limit)
     books=session.exec(book_statement).all()
     return BooksPublic(data=books,count=count)
     
